@@ -1,0 +1,16 @@
+<?php
+$link = mysqli_connect("localhost", "phpmyadmin", "memory850916") 
+        or die("無法開啟MySQL資料庫連接!<br/>");
+
+$dbname = "phpmyadmin";
+
+mysqli_select_db($link, $dbname); 
+mysqli_query($link, "SET NAMES 'utf8'");
+$data = mysqli_query("select * from `table` where id=customer");
+$result = mysqli_query($link, $data);
+while($row =
+ mysqli_fetch_array($result, MYSQL_ASSOC)) {
+	echo $row ;
+   }
+mysqli_close($link);
+?>

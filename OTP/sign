@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>註冊頁面</title>
+  </head>
+  <body>
+  <form class="" action="sign.php" method="post">
+        <input type="text" name="user" value="" placeholder="輸入帳號">
+        <p>
+        <input type="text" name="pass1" value=""panel placeholder="輸入密碼">
+        <p>
+        <input type="text" name="pass2" value=""panel placeholder="確認密碼">
+        <p>
+
+        <input type="submit" name="sign up" value="sign up">
+
+    </form>
+  </body>
+</html>
+
+
