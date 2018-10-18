@@ -43,6 +43,7 @@ if($row['twover']== 0){
     <title>綁定GoogleAuthenticator</title>
   </head>
   <body>
+  <p>
   <button type="button" onclick="location.href='login'">
   TURN BACK LOGIN
   </button>

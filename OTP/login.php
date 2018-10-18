@@ -1,4 +1,4 @@
-]<?php
+<?php
 $conn = mysqli_connect('localhost','root','memory850916');
 $dbname = "phpmyadmin";
 mysqli_select_db($conn, $dbname);
