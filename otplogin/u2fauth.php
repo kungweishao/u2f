@@ -46,8 +46,8 @@ function addReg($user_id, $reg) {
 
 function updateReg($reg) {
     global $pdo;
-    $upd = $pdo->prepare("update registrations set counter = ? where id = ?");
-    $upd->execute(array($reg->counter, $reg->id));
+    $upd = $pdo->prepare("update registrations set counter = ? where keyHandle = ?");
+    $upd->execute(array($reg->counter, $reg->keyHandle));
 }
 
 ?>
@@ -79,7 +79,14 @@ function updateReg($reg) {
         ?>
         setTimeout(function() {
             console.log("sign: ", req);
-            u2f.sign(req, function(data) {
+	    var appId = req[0].appId;
+            var challenge = req[0].challenge;
+
+	    console.log("appId: ", appId);
+            console.log("challenge: ", challenge);
+            console.log("registeredKeys: ", req);
+
+	    u2f.sign(appId, challenge, req, function(data) {
                 var form = document.getElementById('form');
                 var auth = document.getElementById('authenticate2');
                 var user = document.getElementById('username');
@@ -112,7 +119,7 @@ function updateReg($reg) {
     </script>
 
 </head>
-<body>
+<body background="http://s3.amazonaws.com/caself/products/photos/000/001/413/original/concretia_6.jpg?1509412229">
 
 
 <form method="POST" id="form">
@@ -128,7 +135,7 @@ function updateReg($reg) {
 
 	<?php
 		if($temp=="Y"){
-			echo '<script type = "text/javascript">form.action="suc";</script>';
+			echo '<script type = "text/javascript">form.action="iteshop2.php";</script>';
 			echo '<script type = "text/javascript">form.submit();</script>';
 		}
 	?>

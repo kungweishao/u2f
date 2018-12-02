@@ -58,8 +58,8 @@ function addReg($user_id, $reg) {
 
 function updateReg($reg) {
     global $pdo;
-    $upd = $pdo->prepare("update registrations set counter = ? where id = ?");
-    $upd->execute(array($reg->counter, $reg->id));
+    $upd = $pdo->prepare("update registrations set counter = ? where keyHandle = ?");
+    $upd->execute(array($reg->counter, $reg->keyHandle));
 }
 
 ?>
@@ -92,7 +92,11 @@ function updateReg($reg) {
         ?>
         setTimeout(function() {
             console.log("Register: ", req);
-            u2f.register([req], sigs, function(data) {
+	    var appId = req.appId;
+            var registerRequests = [{version: req.version, challenge: req.challenge, attestation: 'direct'}];
+
+
+	    u2f.register(appId, registerRequests, [], function(data){
                 var form = document.getElementById('form');
                 var reg = document.getElementById('register2');
                 var user = document.getElementById('username');
@@ -111,7 +115,7 @@ function updateReg($reg) {
               try {
                 $reg = $u2f->doRegister(json_decode($_SESSION['regReq']), json_decode($_POST['register2']));
                 addReg($user->id, $reg);
-		echo "alert('註冊成功，請重新登入!')";
+		echo "alert('註冊成功!')";
 		$upd = "update test set twover=2,basecode='NULL' where username = '$player'";
 		mysqli_query($conn,$upd);
 		$temp = "Y";
@@ -128,22 +132,25 @@ function updateReg($reg) {
     </script>
 
 </head>
-<body>
+<body background="http://s3.amazonaws.com/caself/products/photos/000/001/413/original/concretia_6.jpg?1509412229">
 
 <form method="POST" id="form">
 
-    <input type="hidden" name="username" id="username" value= '<?php echo $player ?>'/><br/>
+    <input type="text" name="username" id="username" value= '<?php echo $player ?>'/><br/>
 
 
     <input type="hidden" name="register2" id="register2"/>
+    <p>
+    <button type="submit" name="startReg" >註&nbsp;&nbsp;&nbsp;&nbsp;&nbsp冊</button>
 
-    <button type="submit" name="startReg" style="width:120px;height:40px;font-size:20px;">註&nbsp;&nbsp;&nbsp;&nbsp;&nbsp冊</button>
+	 <button type="button" onclick="location.href='iteshop2.php'" >
+	 返回首頁
 
 </form>
 
 	<?php
                 if($temp=="Y"){
-                        echo '<script type = "text/javascript">form.action="login";</script>';
+                        echo '<script type = "text/javascript">form.action="iteshop2.php";</script>';
                         echo '<script type = "text/javascript">form.submit();</script>';
                 }
         ?>
